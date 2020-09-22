@@ -23,15 +23,18 @@ def scrape_news():
         #visit nasa site via splinter
         url = 'https://mars.nasa.gov/news/'
         browser.visit(url)
-
+        time.sleep(2)
         #make into an HTML object and be able to parse with BeautifulSoup
         html = browser.html
         soup = bs(html, "html.parser")
 
         #reterive lastest news title and sample paragraph
-        news_title = soup.find_all('div', class_='content_title')
+        news_title_div = soup.find_all('div', class_='content_title')[1]
+        news_title = news_title_div.find('a').text
+        list_text = soup.find_all('div', class_='list_text')
         news_p = soup.find('div', class_='article_teaser_body').text
 
+        
         #put news into global dictionary
         mars_info['news_title'] = news_title
         mars_info["news_p"] = news_p
@@ -76,22 +79,30 @@ def featured_image():
 #Mars facts
 def scrape_mars_facts():
     try:
+        #init browser
+        browser = init_browser()
+
+        facts_url = "https://space-facts.com/mars/"
+
 
         #visit facts website and pull facts
-        facts = pd.read_html("https://space-facts.com/mars/")[0]
+        facts_read = pd.read_html(facts_url)
+
+        fact_find = facts_read[0]
 
         #assign columns
-        facts.columns=["Description", "Value"]
+        fact_find.columns=["Description", "Value"]
         #set index to descruption
-        facts.set_index("Desc", inplace=True)
-
+        fact_find.set_index("Description", inplace=True)
+        
         #convert to html
-        table_string = facts.to_html()
+        data = fact_find.to_html()
         #remove \n
-        table_string = table_string.replace("\n", "")
+        #table_string = data.replace("\n", "")
 
+        
         #place into dictionary
-        mars_info['facts'] = data
+        mars_info['fact_find'] = data
 
         return mars_info
     finally:
@@ -143,7 +154,7 @@ def hemispheres():
             hemi_urls.append({"title": title, "img_url": img_url})
         
         #place into global dictionary
-        mars_info['hemi_url'] = hemi_urls
+        mars_info['hemi_urls'] = hemi_urls
         
         return mars_info
     finally:

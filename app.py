@@ -24,10 +24,14 @@ def home():
 def scrape():
     # Run the scrape function
     mars = mongo.db.mars
-    mars_data = scrape_mars.scrape_all()
+    mars_data = scrape_mars.scrape_news()
+    mars_data = scrape_mars.featured_image()
+    mars_data = scrape_mars.scrape_mars_facts()
+    mars_data = scrape_mars.hemispheres()
+
 
     # Update the Mongo database using update and upsert=True
-    mongo.db.mars.update({}, mars_data, upsert=True)
+    mars.update({}, mars_data, upsert=True)
 
     # Redirect back to home page
     return redirect("/")

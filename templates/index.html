@@ -23,7 +23,7 @@
                     <div class="media_body">
                         <h3>Lastest Mars News</h3>
                         <h4 style="color: red">{{mars.news_title}}</h4>
-                        <p style="color: black">{{mars.news_p</p>
+                        <p style="color: black">{{mars.news_p}}</p>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
             <div class="row" id="mars-feat-image">
                 <div class="col-lg-6 col-md-6 col-sm-10">
                 <h3>Featured Image</h3>
-                    <img src="{{mars.feat_img}}" alt="Featured Image" style="width: 70%"    
+                    <img src="{{mars.full_url}}" alt="Featured Image" style="width: 70%">    
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
             <div class="row" id="mars-facts">
                 <div class="col-md-12">
                     <h3>Mars Facts</h3>
-                    {{mars.data | safe}}
+                    {{mars.fact_find | safe}}
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
             <hr>
             <div class="col-md-12">
                 <div class="row" id="hemispheres">
-                    {% for hemisphere in mars.hemi_urls}
+                    {% for hemisphere in mars.hemi_urls %}
                     <div class="col-md-6">
                         <div class="card text-black bg-danger" style="margin: 30px;">
                             <img class="card-img-top" src="{{hemisphere.img_url | default('static/images/error.png', true)}}" alt="no image found"/>
